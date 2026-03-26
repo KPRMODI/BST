@@ -98,6 +98,11 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
         //   -- set parent's left or right to null
         //   -- handle the special case where current is the root
 
+        if (current.right == null && current.left == null) {
+            parent = current;
+            size--;
+         }
+
         // TODO Case 2: current has one child
         //   -- set parent's pointer to current's only child
         //   -- handle the special case where current is the root
