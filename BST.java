@@ -84,36 +84,104 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
 
         while (current != null) {
             int cmp = e.compareTo(current.element);
-            if      (cmp < 0) { parent = current; current = current.left; }
-            else if (cmp > 0) { parent = current; current = current.right; }
-            else break; // found
+            if (cmp < 0) { 
+                parent = current; 
+                current = current.left; 
+                }
+            else if (cmp > 0) { 
+                parent = current; 
+                current = current.right; 
+            }
+            else {
+                break; // found
+            }
         }
 
         if (current == null) {
-            return false;
-         } // not found
+            return false; // not found
+         } 
 
         // Step 2: determine which case applies and handle it
         // TODO Case 1: current has no children
         //   -- set parent's left or right to null
         //   -- handle the special case where current is the root
 
-        if (current.right == null && current.left == null) {
-            parent = current;
-            size--;
-         }
+        if (current.left == null && current.right == null){
+            if (parent == null) {
+                root = null; //special case where current is root
+            }
+            else if (parent.left == current) {
+                parent.left = null;
+            }
+            else {
+                parent.right = null;
+            }
+        }
+        
 
         // TODO Case 2: current has one child
         //   -- set parent's pointer to current's only child
         //   -- handle the special case where current is the root
 
+        else if (current.left == null || current.right == null) {
+            TreeNode<E> child; //child variable to bypass and connect to parent
+
+            if (current.left != null && current.right == null) {
+                child = current.left; //assigns child as the left meaning the invariant is less than
+            }
+
+            else if (current.left == null && current.right != null) {
+                child = current.right; //assigns child as the left meaning the invariant is less than
+            }
+
+            else {
+                    child = null; // for special case where current is root and has no children
+                }
+
+            if (parent == null) {
+                root = child; // special case where current is root
+            }
+
+            else if (parent.left == current) {
+                parent.left = child;
+            }
+
+            else {
+                parent.right = child;
+            }
+        }
+
         // TODO Case 3: current has two children
         //   -- find the in-order successor: go right once, then left as far as possible
         //   -- copy successor's value into current
         //   -- delete the successor (it has at most one child, so Case 1 or 2)
+        else {
+            // create successor variables to make this easier for me 
+            TreeNode<E> successorParent = current; //current successor parent starts as current and will be updated as we go down the tree
+            TreeNode<E> successor = current.right; //inorder successor is always on the right by one
+
+            while (successor.left != null) { // keep going left until null to find the successor to delete
+                successorParent = successor;
+                successor = successor.left;
+            }
+
+
+            current.element = successor.element; // copy the successor's element into current as we copy for 2 children and not delete
+
+            if (successorParent.left == successor) {
+                successorParent.left = successor.left; //rearranges BST after copying successor's value into current and deleting the successor for left
+            }
+            else {
+                successorParent.right = successor.right; //Other Side depending on what we delete for right side
+            }
+        }
+
+
+
 
         // TODO: decrement size and return true
-        return false; // replace this
+        size--;
+        return true; 
     }
 
     // ── Inorder traversal ─────────────────────────────────────────────────
