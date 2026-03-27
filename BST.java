@@ -26,7 +26,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
     // ── Search ────────────────────────────────────────────────────────────
     @Override
     public boolean search(E e) {
-        // TODO: return true if e is in the tree, false otherwise
+        // return true if e is in the tree, false otherwise
         // Follow the invariant from root.
         // Return false when current becomes null (fell off the tree).
         TreeNode<E> current = root;
@@ -47,7 +47,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
     // ── Insert ────────────────────────────────────────────────────────────
     @Override
     public boolean insert(E e) {
-        // TODO: insert e into the correct position
+        // insert e into the correct position
         // Return false if e is already in the tree (duplicate).
         // Return true if inserted successfully.
         // Remember to increment size on a successful insert.
@@ -62,9 +62,17 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
         while (current != null) {
             int cmp = e.compareTo(current.element);
         // move down one level, remembering the parent
-            if      (cmp < 0) { parent = current; current = current.left; }
-            else if (cmp > 0) { parent = current; current = current.right; }
-            else return false;  // duplicate
+            if      (cmp < 0) { 
+                parent = current; 
+                current = current.left;
+             }
+            else if (cmp > 0) { 
+                parent = current; 
+                current = current.right;
+            }
+            else{
+                return false;  // duplicate
+            } 
         }
         // current is null -- attach new node to parent
         if (e.compareTo(parent.element) < 0)
@@ -102,7 +110,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
          } 
 
         // Step 2: determine which case applies and handle it
-        // TODO Case 1: current has no children
+        // Case 1: current has no children
         //   -- set parent's left or right to null
         //   -- handle the special case where current is the root
 
@@ -119,7 +127,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
         }
         
 
-        // TODO Case 2: current has one child
+        // Case 2: current has one child
         //   -- set parent's pointer to current's only child
         //   -- handle the special case where current is the root
 
@@ -151,7 +159,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
             }
         }
 
-        // TODO Case 3: current has two children
+        // Case 3: current has two children
         //   -- find the in-order successor: go right once, then left as far as possible
         //   -- copy successor's value into current
         //   -- delete the successor (it has at most one child, so Case 1 or 2)
@@ -179,7 +187,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
 
 
 
-        // TODO: decrement size and return true
+        // decrement size and return true
         size--;
         return true; 
     }
@@ -191,7 +199,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
     }
 
     private void inorder(TreeNode<E> root) {
-        // TODO: implement inorder traversal (left -> visit -> right)
+        // implement inorder traversal (left -> visit -> right)
         // Base case: if node is null, return.
 
         if (root == null) {
@@ -209,7 +217,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
     }
 
     private void preorder(TreeNode<E> root) {
-        // TODO: implement preorder traversal (visit -> left -> right)
+        // implement preorder traversal (visit -> left -> right)
         // Base case: if node is null, return.
         if (root == null) {
             return;
@@ -226,7 +234,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
     }
 
     private void postorder(TreeNode<E> root) {
-        // TODO: implement postorder traversal (left -> right -> visit)
+        // implement postorder traversal (left -> right -> visit)
         // Base case: if node is null, return.
         if (root == null) {
             return;
