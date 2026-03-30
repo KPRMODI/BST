@@ -117,12 +117,15 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
         if (current.left == null && current.right == null){
             if (parent == null) {
                 root = null; //special case where current is root
+                size--;
             }
             else if (parent.left == current) {
                 parent.left = null;
+                size--;
             }
             else {
                 parent.right = null;
+                size--;
             }
         }
         
@@ -136,26 +139,32 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
 
             if (current.left != null && current.right == null) {
                 child = current.left; //assigns child as the left meaning the invariant is less than
+                size--;
             }
 
             else if (current.left == null && current.right != null) {
                 child = current.right; //assigns child as the RIGHT meaning the invariant is more than
+                size--;
             }
 
             else {
                     child = null; // for special case where current is root
+                    size--;
                 }
 
             if (parent == null) {
                 root = child; // special case where current is root
+                size--;
             }
 
             else if (parent.left == current) {
                 parent.left = child;
+                size--;
             }
 
             else {
                 parent.right = child;
+                size--;
             }
         }
 
@@ -183,10 +192,7 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
                 successorParent.right = successor.right; //right side depending on what we delete for left side
             }
         }
-
-
-        // decrement size and return true
-        size--;
+        // return true at end
         return true; 
     }
 
