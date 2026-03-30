@@ -139,11 +139,11 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
             }
 
             else if (current.left == null && current.right != null) {
-                child = current.right; //assigns child as the left meaning the invariant is less than
+                child = current.right; //assigns child as the RIGHT meaning the invariant is more than
             }
 
             else {
-                    child = null; // for special case where current is root and has no children
+                    child = null; // for special case where current is root
                 }
 
             if (parent == null) {
@@ -164,27 +164,25 @@ public class BST<E extends Comparable<E>> implements Tree<E> {
         //   -- copy successor's value into current
         //   -- delete the successor (it has at most one child, so Case 1 or 2)
         else {
-            // create successor variables to make this easier for me 
-            TreeNode<E> successorParent = current; //current successor parent starts as current and will be updated as we go down the tree
-            TreeNode<E> successor = current.right; //inorder successor is always on the right by one
+            // create successor variables for parent and successor 
+            TreeNode<E> successorParent = current; // the parent or root node
+            TreeNode<E> successor = current.right; // the successor of the parent
 
-            while (successor.left != null) { // keep going left until null to find the successor to delete
-                successorParent = successor;
-                successor = successor.left;
+            while (successor.left != null) { // loop to go as far left as possible (2 children)
+                successorParent = successor; //go right once
+                successor = successor.left; //keep going left as far as possible
             }
 
+            current.element = successor.element; // copy the successor's element into the node being deleted
 
-            current.element = successor.element; // copy the successor's element into current as we copy for 2 children and not delete
-
+            // delete successor node  
             if (successorParent.left == successor) {
-                successorParent.left = successor.left; //rearranges BST after copying successor's value into current and deleting the successor for left
+                successorParent.left = successor.left; // Deletes left side 
             }
-            else {
-                successorParent.right = successor.right; //Other Side depending on what we delete for right side
+            else if (successorParent.right == successor) {
+                successorParent.right = successor.right; //right side depending on what we delete for left side
             }
         }
-
-
 
 
         // decrement size and return true
